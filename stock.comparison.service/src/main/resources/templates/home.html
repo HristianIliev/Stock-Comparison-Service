@@ -1,0 +1,311 @@
+<!doctype html>
+<html class="no-js" lang="bg" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Hristian Iliev">
+    <meta name="keywords" content="Squad,Team,Organize">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/datatables.min.css">
+
+    <link rel="stylesheet" href="/css/iziToast.min.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/jquery-confirm.min.css">
+
+    <link rel="stylesheet" href="/css/index.css">
+
+    <script src="https://kit.fontawesome.com/c488ec9044.js" crossorigin="anonymous"></script>
+</head>
+
+<body th:id="${needsUpdate}" class="flexbox-container">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" style="position: relative;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/users/{username}/comparisons(username=${username})}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users/{username}/dashboards(username=${username})}">Dashboards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users/{username}/notes(username=${username})}">Notes</a>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0" style="margin-right: 100px">
+                <input id="periods" class="form-control mr-sm-2" type="number" min="1" max="500" step="1" value="200" required>
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Calculate!</button>
+            </form>
+
+            <form th:action="@{/logout}" method="post">
+                <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Logout" />
+            </form>
+        </div>
+    </nav>
+
+    <table id="table" class="display table-hover table-bordered table-striped" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Name of the stocks</th>
+                <th>AVG spread</th>
+                <th>Mode</th>
+                <th>Median</th>
+                <th>Standard devi.</th>
+                <th>Z-score</th>
+                <th>Correlation Coeff.</th>
+                <th>Last known price 1</th>
+                <th>Last known price 2</th>
+                <th>AVG dividend 1</th>
+                <th>AVG dividend 2</th>
+                <th>AVG volume 1</th>
+                <th>AVG volume 2</th>
+                <th>Tools</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="comparison: ${comparisons}">
+                <td th:utext="${comparison.getName()}"></td>
+                <td th:text="${comparison.getAverageOfDifferences()}"></td>
+                <td th:text="${comparison.getModeOfDifferences()}"></td>
+                <td th:text="${comparison.getMedianOfDifferences()}"></td>
+                <td th:text="${comparison.getStandardDeviationOfDifferences()}"></td>
+                <td th:text="${comparison.getZScoreOfDifferences()}"></td>
+                <td th:text="${comparison.getCorrelationCoefficient()}"></td>
+                <td th:text="${comparison.getFirstLastKnownPrice()}"></td>
+                <td th:text="${comparison.getSecondLastKnownPrice()}"></td>
+                <td th:text="${comparison.getFirstAvgDividend()}"></td>
+                <td th:text="${comparison.getSecondAvgDividend()}"></td>
+                <td th:text="${comparison.getFirstAvgVolume()}"></td>
+                <td th:text="${comparison.getSecondAvgVolume()}"></td>
+                <td class="tools-cell">
+                    <div class="iconscontainer"> <i class="faicon fa-solid fa-note-sticky fa-lg"></i> <i th:if="${comparison.getName().contains('span')} == false" class="faicon fa-solid fa-tag fa-lg"></i> <i th:if="${comparison.getName().contains('span')}" class="faicon fa-solid fa-delete-left fa-lg"></i>                        <i class="faicon fa-lg fa-solid fa-trash"></i> </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <span class="line"></span>
+    <div class="diagrams-row">
+    </div>
+
+    <!-- Add stock modal -->
+    <div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStockModalLabel">Add new pairs of stocks</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="input-group mb-3">
+                                    <input id="firstStock" type="text" class="form-control" placeholder="Name of the first stock">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="input-group mb-3">
+                                    <input id="secondStock" type="text" class="form-control" placeholder="Name of the second stock">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="submit-btn" type="button" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Choose chart type modal -->
+    <div class="modal fade" id="chooseChartTypeModal" tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Choose chart type modal">Choose the chart type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="chartTypeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select chart type
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <button id="spreadChartType" class="dropdown-item" type="button">Spread chart</button>
+                                    <button id="volumeChartType" class="dropdown-item" type="button">Volume chart</button>
+                                    <button id="priceChartType" class="dropdown-item" type="button">Price chart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="submit-chart-type-btn" type="button" class="btn btn-primary">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Select tag for comparison -->
+    <div class="modal fade" id="selectComparisonTag" tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select tag category for comparison</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <h6>Create a new tag</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="input-group mb-3">
+                                    <input id="tagName" type="text" class="form-control" placeholder="Tag name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h6>Or choose from already created tags</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="existingTagsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Select existing tag
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <button type="button" class="dropdownTagEntry dropdown-item" th:each="tag: ${tags}" th:classappend="${tag.getColor()}" th:id="'tag' + ${tag.getId()}" th:value="${tag.getName()}" th:text="${tag.getName()}"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h6>Select color: </h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="input-group mb-3">
+                                    <input type="color" id="tagColor" name="head" value="#e66465">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="submit-tag" type="button" class="btn btn-primary">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save to dashboard -->
+    <div class="modal fade" id="createNewNote" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create new note</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <form>
+                            <div class="form-group">
+                                <label for="newNoteTitle">Title</label>
+                                <input type="email" class="form-control" id="newNoteTitle" placeholder="Example note name">
+                            </div>
+                            <div class="form-group">
+                                <label for="newNoteText">Text</label>
+                                <textarea class="form-control" id="newNoteText" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="submit-new-note" type="button" class="btn btn-primary">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveToDashboardModal" tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select dashboard</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="selectDashboardDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Select dashboard
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <button type="button" class="dropdownDashboardEntry dropdown-item" th:each="dashboard: ${dashboards}" th:id="'dashboard' + ${dashboard.getId()}" th:value="${dashboard.getName()}" th:text="${dashboard.getName()}"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="submit-dashboard" type="button" class="btn btn-primary">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/tippy.js@2.5.4/dist/tippy.all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="/js/iziToast.min.js"></script>
+    <script src="/js/datatables.min.js"></script>
+    <script src="/js/sort-percent.js"></script>
+    <script src="/js/colReorder.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="/js/moment.js"></script>
+    <script src="/js/jquery-confirm.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/index.js"></script>
+</body>
+
+</html>

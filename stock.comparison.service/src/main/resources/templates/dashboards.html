@@ -1,0 +1,100 @@
+<!doctype html>
+<html class="no-js" lang="bg" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Hristian Iliev">
+    <meta name="keywords" content="Squad,Team,Organize">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboards</title>
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/iziToast.min.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/jquery-confirm.min.css">
+
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+    <script src="https://kit.fontawesome.com/c488ec9044.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="flexbox-container">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" style="position: relative;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users/{username}/comparisons(username=${username})}">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/users/{username}/dashboards(username=${username})}">Dashboards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users/{username}/notes(username=${username})}">Notes</a>
+                </li>
+            </ul>
+
+            <form th:action="@{/logout}" method="post">
+                <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Logout" />
+            </form>
+        </div>
+    </nav>
+
+    <div class="row margin-left margin-top">
+        <h5>Create a new dashboard</h5>
+    </div>
+    <div class="row margin-left margin-bottom">
+        <form id="createNewDashboardButton">
+            <div class="form-row">
+                <div class="col">
+                    <input id="dashboardName" type="text" class="form-control" placeholder="Name">
+                </div>
+                <div class="col">
+                    <input id="dashboardDescription" type="text" class="form-control" placeholder="Description">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 margin-left margin-bottom" th:each="dashboard: ${dashboards}">
+            <div class="card">
+                <h5 class="card-header" th:text="${dashboard.getName()}"></h5>
+                <div class="card-body">
+                    <p class="card-text" th:text="${dashboard.getDescription()}"></p>
+                    <div class="flexrow">
+                        <a th:href="@{'/users/' + ${username} + '/dashboards/' + ${dashboard.getId()}}" class="btn btn-primary">Go to dashboard</a>
+                        <button th:id="${dashboard.getId()}" type="button" class="btn btn-danger deleteDashboardBtn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/tippy.js@2.5.4/dist/tippy.all.min.js"></script>
+    <!-- <script src="/static/js/tippy.standalone.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/iziToast.min.js"></script>
+    <script src="/js/sort-percent.js"></script>
+    <script src="/js/colReorder.min.js"></script>
+    <script src="/js/jquery-confirm.min.js"></script>
+</body>
+
+</html>
