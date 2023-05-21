@@ -8,6 +8,7 @@ import hristian.iliev.stock.comparison.service.comparison.entity.Note;
 import hristian.iliev.stock.comparison.service.events.Event;
 import hristian.iliev.stock.comparison.service.users.UsersService;
 import hristian.iliev.stock.comparison.service.users.entity.User;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +21,15 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@AllArgsConstructor
 public class NotesController {
 
-  @Autowired
   private RabbitTemplate rabbitTemplate;
 
-  @Autowired
   private UsersService usersService;
 
-  @Autowired
   private ComparisonService comparisonService;
 
-  @Autowired
   private NoteService noteService;
 
   @GetMapping("/users/{username}/notes")

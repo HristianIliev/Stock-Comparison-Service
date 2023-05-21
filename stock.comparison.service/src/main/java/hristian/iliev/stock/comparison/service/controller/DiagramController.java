@@ -6,6 +6,7 @@ import hristian.iliev.stock.comparison.service.comparison.entity.DiagramData;
 import hristian.iliev.stock.comparison.service.dashboard.entity.Chart;
 import hristian.iliev.stock.comparison.service.events.Event;
 import hristian.iliev.stock.comparison.service.stocks.StockQuoteService;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@AllArgsConstructor
 public class DiagramController {
 
-  @Autowired
   private RabbitTemplate rabbitTemplate;
 
-  @Autowired
   private StockQuoteService quoteService;
 
   @GetMapping("/api/diagrams")

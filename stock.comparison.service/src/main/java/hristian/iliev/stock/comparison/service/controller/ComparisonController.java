@@ -9,6 +9,7 @@ import hristian.iliev.stock.comparison.service.events.Event;
 import hristian.iliev.stock.comparison.service.stocks.StockQuoteService;
 import hristian.iliev.stock.comparison.service.users.UsersService;
 import hristian.iliev.stock.comparison.service.users.entity.User;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,18 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@AllArgsConstructor
 public class ComparisonController {
 
-  @Autowired
   private RabbitTemplate rabbitTemplate;
 
-  @Autowired
   private UsersService usersService;
 
-  @Autowired
   private ComparisonService comparisonService;
 
-  @Autowired
   private StockQuoteService stockQuoteService;
 
   @GetMapping("/users/{username}/comparisons")

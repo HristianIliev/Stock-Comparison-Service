@@ -7,6 +7,7 @@ import hristian.iliev.stock.comparison.service.comparison.repository.ComparisonR
 import hristian.iliev.stock.comparison.service.comparison.repository.NoteRepository;
 import hristian.iliev.stock.comparison.service.comparison.repository.TagRepository;
 import hristian.iliev.stock.comparison.service.users.entity.User;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class DomainComparisonService implements ComparisonService {
 
-  @Autowired
-  private ComparisonRepository comparisonRepository;
+  private final ComparisonRepository comparisonRepository;
 
-  @Autowired
-  private TagRepository tagRepository;
+  private final TagRepository tagRepository;
 
-  @Autowired
-  private NoteRepository noteRepository;
+  private final NoteRepository noteRepository;
 
   @Override
   public List<Comparison> retrieveComparisonsByUser(long userId) {

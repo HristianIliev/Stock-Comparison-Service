@@ -3,6 +3,7 @@ package hristian.iliev.stock.comparison.service.users;
 import com.google.common.hash.Hashing;
 import hristian.iliev.stock.comparison.service.users.entity.User;
 import hristian.iliev.stock.comparison.service.users.repository.UsersRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,10 @@ import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 
 @Service
+@AllArgsConstructor
 public class DomainUsersService implements UsersService {
 
-  @Autowired
-  private UsersRepository repository;
+  private final UsersRepository repository;
 
   @Override
   public User loadUserByUsername(String username) throws UsernameNotFoundException {

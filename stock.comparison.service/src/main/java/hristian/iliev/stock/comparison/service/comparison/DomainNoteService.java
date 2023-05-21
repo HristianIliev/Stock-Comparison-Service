@@ -4,6 +4,7 @@ import hristian.iliev.stock.comparison.service.comparison.entity.Comparison;
 import hristian.iliev.stock.comparison.service.comparison.entity.Note;
 import hristian.iliev.stock.comparison.service.comparison.repository.ComparisonRepository;
 import hristian.iliev.stock.comparison.service.comparison.repository.NoteRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +12,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class DomainNoteService implements NoteService {
 
-  @Autowired
-  private NoteRepository noteRepository;
+  private final NoteRepository noteRepository;
 
-  @Autowired
-  private ComparisonRepository comparisonRepository;
+  private final ComparisonRepository comparisonRepository;
 
   @Override
   public void deleteNote(int noteId) {
-    noteRepository.deleteById(new Long(noteId));
+    noteRepository.deleteById(Long.valueOf(noteId));
   }
 
   @Override

@@ -7,6 +7,7 @@ import hristian.iliev.stock.comparison.service.dashboard.entity.Dashboard;
 import hristian.iliev.stock.comparison.service.events.Event;
 import hristian.iliev.stock.comparison.service.users.UsersService;
 import hristian.iliev.stock.comparison.service.users.entity.User;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,15 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import java.security.InvalidParameterException;
 
 @Controller
+@AllArgsConstructor
 public class DashboardController {
 
-  @Autowired
   private RabbitTemplate rabbitTemplate;
 
-  @Autowired
   private UsersService usersService;
 
-  @Autowired
   private DashboardService dashboardService;
 
   @PostMapping("/api/users/{username}/dashboards/{dashboardName}/charts")

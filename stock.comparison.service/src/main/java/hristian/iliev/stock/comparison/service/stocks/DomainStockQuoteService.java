@@ -1,7 +1,7 @@
 package hristian.iliev.stock.comparison.service.stocks;
 
 import com.opencsv.CSVReader;
-import hristian.iliev.spring.course.stock.comparison.comparison.entity.*;
+//import hristian.iliev.spring.course.stock.comparison.comparison.entity.*;
 import hristian.iliev.stock.comparison.service.comparison.entity.Comparison;
 import hristian.iliev.stock.comparison.service.comparison.entity.ComparisonCalculations;
 import hristian.iliev.stock.comparison.service.comparison.entity.DiagramData;
@@ -9,6 +9,7 @@ import hristian.iliev.stock.comparison.service.comparison.repository.TagReposito
 import hristian.iliev.stock.comparison.service.stocks.entity.Quote;
 import hristian.iliev.stock.comparison.service.stocks.repository.QuoteRepository;
 import hristian.iliev.stock.comparison.service.comparison.entity.DataPoint;
+import lombok.AllArgsConstructor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -31,15 +32,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
+@AllArgsConstructor
 public class DomainStockQuoteService implements StockQuoteService {
 
   private static final int MAX_PERIODS = 200;
 
-  @Autowired
-  private QuoteRepository quoteRepository;
+  private final QuoteRepository quoteRepository;
 
-  @Autowired
-  private TagRepository tagRepository;
+  private final TagRepository tagRepository;
 
   @Override
   public void updateStockQuotes() throws IOException, InterruptedException {

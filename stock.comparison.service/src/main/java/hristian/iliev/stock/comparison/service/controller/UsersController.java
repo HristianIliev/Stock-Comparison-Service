@@ -4,6 +4,7 @@ import hristian.iliev.stock.comparison.service.Application;
 import hristian.iliev.stock.comparison.service.events.Event;
 import hristian.iliev.stock.comparison.service.users.UsersService;
 import hristian.iliev.stock.comparison.service.users.entity.User;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,12 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
+@AllArgsConstructor
 public class UsersController {
 
-  @Autowired
   private RabbitTemplate rabbitTemplate;
 
-  @Autowired
   private UsersService usersService;
 
   @PostMapping("/api/register")

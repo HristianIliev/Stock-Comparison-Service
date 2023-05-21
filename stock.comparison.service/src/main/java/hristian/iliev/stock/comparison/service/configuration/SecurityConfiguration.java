@@ -2,6 +2,7 @@ package hristian.iliev.stock.comparison.service.configuration;
 
 import hristian.iliev.stock.comparison.service.authentication.CustomAuthenticationProvider;
 import hristian.iliev.stock.comparison.service.authentication.LoginSuccessHandler;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfiguration {
 
-  @Autowired
   private CustomAuthenticationProvider authenticationProvider;
 
   @Bean
