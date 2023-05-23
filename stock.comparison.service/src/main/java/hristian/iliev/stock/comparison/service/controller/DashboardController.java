@@ -82,7 +82,7 @@ public class DashboardController {
 
   @DeleteMapping("/api/users/{username}/dashboards/{dashboardId}")
   public ResponseEntity deleteDashboard(@PathVariable String username, @PathVariable int dashboardId) {
-    dashboardService.deleteDashboard(new Long(dashboardId));
+    dashboardService.deleteDashboard(Long.valueOf(dashboardId));
 
     Event event = new Event.Builder()
         .withAction(Event.EventAction.DELETE)
@@ -108,7 +108,7 @@ public class DashboardController {
 
   @GetMapping("/users/{username}/dashboards/{dashboardId}")
   public String dashboardInformation(@PathVariable("username") String username, @PathVariable int dashboardId, Model model) {
-    Dashboard dashboard = dashboardService.retrieveById(new Long(dashboardId));
+    Dashboard dashboard = dashboardService.retrieveById(Long.valueOf(dashboardId));
 
     model.addAttribute("charts", dashboard.getCharts());
 
