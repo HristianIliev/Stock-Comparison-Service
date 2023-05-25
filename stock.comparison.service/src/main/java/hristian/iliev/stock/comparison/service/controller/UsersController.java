@@ -27,7 +27,7 @@ public class UsersController {
       return new ResponseEntity(HttpStatus.CONFLICT);
     }
 
-    if (user.getEmail() == null || user.getEmail().trim().isEmpty() || user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+    if (user.getEmail() == null || user.getEmail().trim().isEmpty() || /*user.getPassword() == null ||*/ user.getPassword().trim().isEmpty()) {
       return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 

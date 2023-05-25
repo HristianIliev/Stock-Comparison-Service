@@ -27,7 +27,7 @@ public class User implements UserDetails {
 
   private String email;
 
-  @JsonIgnore
+  //@JsonIgnore
   private String password;
 
   @OneToMany(mappedBy = "user")

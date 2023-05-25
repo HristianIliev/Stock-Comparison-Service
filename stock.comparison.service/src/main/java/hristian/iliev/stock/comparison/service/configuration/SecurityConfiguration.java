@@ -31,7 +31,7 @@ public class SecurityConfiguration {
             .antMatchers(HttpMethod.POST, "/api/register")
             .permitAll()
             .anyRequest()
-            .authenticated()
+            .permitAll()
         )
         .formLogin(form -> form
             .loginPage("/login")
