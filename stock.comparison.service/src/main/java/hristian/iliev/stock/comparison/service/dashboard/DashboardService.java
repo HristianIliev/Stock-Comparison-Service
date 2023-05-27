@@ -11,5 +11,4 @@ public interface DashboardService {
 
   public void deleteDashboard(Long dashboardId);
 
-  public Dashboard retrieveById(Long dashboardId);
 }

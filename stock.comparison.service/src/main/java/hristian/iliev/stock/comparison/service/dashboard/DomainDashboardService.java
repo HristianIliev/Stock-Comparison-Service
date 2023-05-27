@@ -44,9 +44,4 @@ public class DomainDashboardService implements DashboardService {
     dashboardRepository.deleteById(dashboardId);
   }
 
-  @Override
-  public Dashboard retrieveById(Long dashboardId) {
-    return dashboardRepository.findById(dashboardId).get();
-  }
-
 }

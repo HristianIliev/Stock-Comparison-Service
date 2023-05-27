@@ -1,7 +1,6 @@
 package hristian.iliev.stock.comparison.service.stocks;
 
 import com.opencsv.CSVReader;
-import hristian.iliev.spring.course.stock.comparison.comparison.entity.*;
 import hristian.iliev.stock.comparison.service.comparison.entity.Comparison;
 import hristian.iliev.stock.comparison.service.comparison.entity.ComparisonCalculations;
 import hristian.iliev.stock.comparison.service.comparison.entity.DiagramData;

@@ -31,7 +31,6 @@ public class DomainUsersService implements UsersService {
   @Override
   @Transactional
   public void save(User user) {
-
     String sha256EncodedString = Hashing.sha256()
         .hashString(user.getPassword(), StandardCharsets.UTF_8)
         .toString();

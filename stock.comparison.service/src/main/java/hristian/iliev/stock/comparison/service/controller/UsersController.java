@@ -1,14 +1,14 @@
 package hristian.iliev.stock.comparison.service.controller;
 
-import hristian.iliev.stock.comparison.service.Application;
-import hristian.iliev.stock.comparison.service.events.Event;
 import hristian.iliev.stock.comparison.service.users.UsersService;
 import hristian.iliev.stock.comparison.service.users.entity.User;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -16,10 +16,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UsersController {
 
   @Autowired
-  private RabbitTemplate rabbitTemplate;
-
-  @Autowired
   private UsersService usersService;
+
+  @GetMapping("/api/users/{username}")
+  public ResponseEntity user(@PathVariable("username") String username) {
+    User user = usersService.retrieveUserByUsername(username);
+
+    if (user == null) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    return ResponseEntity.ok(user);
+  }
 
   @PostMapping("/api/register")
   public ResponseEntity register(@RequestBody User user) {
@@ -32,15 +40,6 @@ public class UsersController {
     }
 
     usersService.save(user);
-
-    Event event = new Event.Builder()
-        .withAction(Event.EventAction.CREATE)
-        .withEntityClass(User.class.getName())
-        .withUsername(user.getUsername())
-        .withMessage("New user with " + user.getUsername() + " has been created.")
-        .build();
-
-    rabbitTemplate.convertAndSend(Application.topicExchangeName, "analytics.users", event.toJson());
 
     return new ResponseEntity(HttpStatus.OK);
   }

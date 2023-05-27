@@ -83,20 +83,6 @@ public class DomainComparisonService implements ComparisonService {
   }
 
   @Override
-  public List<Tag> retrieveTagsOfUser(Long id) {
-    List<Tag> result = new ArrayList<>();
-
-    List<Tag> tags = (List<Tag>) tagRepository.findAll();
-    for (Tag tag : tags) {
-      if (tag.getUserId().equals(id)) {
-        result.add(tag);
-      }
-    }
-
-    return result;
-  }
-
-  @Override
   public void deleteComparison(User user, String firstStockName, String secondStockName) {
     List<Comparison> comparisons = this.retrieveComparisonsByUser(user.getId());
 

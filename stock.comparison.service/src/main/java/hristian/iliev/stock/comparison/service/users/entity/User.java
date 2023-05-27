@@ -1,6 +1,7 @@
 package hristian.iliev.stock.comparison.service.users.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hristian.iliev.stock.comparison.service.dashboard.entity.Dashboard;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class User implements UserDetails {
 
   private String email;
 
-  @JsonIgnore
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
 
   @OneToMany(mappedBy = "user")

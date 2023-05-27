@@ -16,7 +16,6 @@ public interface ComparisonService {
 
   public void deleteTagOf(Comparison comparison);
 
-  public List<Tag> retrieveTagsOfUser(Long id);
-
   public void deleteComparison(User user, String firstStockName, String secondStockName);
+
 }

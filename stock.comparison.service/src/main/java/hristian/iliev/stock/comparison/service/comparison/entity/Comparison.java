@@ -32,6 +32,7 @@ public class Comparison {
   @OneToMany(mappedBy = "comparison")
   private List<Note> notes;
 
+  @JsonIgnore
   public User getUser() {
     return user;
   }
