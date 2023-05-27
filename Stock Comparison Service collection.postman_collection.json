@@ -1,0 +1,398 @@
+{
+	"info": {
+		"_postman_id": "84853a80-17c3-4ced-9a04-28af3623b3a8",
+		"name": "Stock Comparison Service collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12439654",
+		"_collection_link": "https://interstellar-comet-883916.postman.co/workspace/StockComparisonService~180cb53f-0705-4ee8-a021-29477d445d6b/collection/12439654-84853a80-17c3-4ced-9a04-28af3623b3a8?action=share&creator=12439654&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Get user information",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3211/api/users/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate diagram data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3211/api/diagrams?firstStockName=NVDA&secondStockName=AMZN&periods=200",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"diagrams"
+					],
+					"query": [
+						{
+							"key": "firstStockName",
+							"value": "NVDA"
+						},
+						{
+							"key": "secondStockName",
+							"value": "AMZN"
+						},
+						{
+							"key": "periods",
+							"value": "200"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user stock comparisons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/comparisons/names",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"comparisons",
+						"names"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add stock comparison to user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/comparisons?firstStock=NVDA&secondStock=AMZN",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"comparisons"
+					],
+					"query": [
+						{
+							"key": "firstStock",
+							"value": "NVDA"
+						},
+						{
+							"key": "secondStock",
+							"value": "AMZN"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete stock comparison of user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/comparisons?firstStock=NVDA&secondStock=AMZN",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"comparisons"
+					],
+					"query": [
+						{
+							"key": "firstStock",
+							"value": "NVDA"
+						},
+						{
+							"key": "secondStock",
+							"value": "AMZN"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create tag for comparison",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"New tag from Postman\",\n    \"color\": \"#e66465\",\n    \"userId\": 188516\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/comparisons/tags?firstStock=NVDA&secondStock=AMZN",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"comparisons",
+						"tags"
+					],
+					"query": [
+						{
+							"key": "firstStock",
+							"value": "NVDA"
+						},
+						{
+							"key": "secondStock",
+							"value": "AMZN"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete tag of comparison",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/comparisons/tags?firstStock=NVDA&secondStock=AMZN",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"comparisons",
+						"tags"
+					],
+					"query": [
+						{
+							"key": "firstStock",
+							"value": "NVDA"
+						},
+						{
+							"key": "secondStock",
+							"value": "AMZN"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add dashboard to user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"postman\",\n    \"description\": \"This is a new dashboard from Postman\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/dashboards",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"dashboards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete dashboard",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/dashboards/215836",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"dashboards",
+						"215836"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add chart to dashboard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"periods\": 200,\n    \"firstStockName\": \"NVDA\",\n    \"secondStockName\": \"AMZN\",\n    \"type\": \"price\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/dashboards/postman/charts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"dashboards",
+						"postman",
+						"charts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create note for comparison",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comparison\": {\n        \"firstStockName\": \"NVDA\",\n        \"secondStockName\": \"AMZN\"\n    },\n    \"text\": \"This is text for a note created through Postman\",\n    \"title\": \"Postman note\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/notes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"notes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete note",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3211/api/users/test/notes/215846",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"users",
+						"test",
+						"notes",
+						"215846"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"email@gmail.com\",\n    \"password\": \"Abcd1234\",\n    \"username\": \"test2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3211/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3211",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
