@@ -29,7 +29,8 @@ public class DomainNoteService implements NoteService {
     System.out.println(note);
     List<Comparison> comparisons = (List<Comparison>) comparisonRepository.findAll();
     for (Comparison comparison : comparisons) {
-      if (comparison.getFirstStockName().equals(note.getComparison().getFirstStockName()) && comparison.getSecondStockName().equals(note.getComparison().getSecondStockName())) {
+      if (comparison.getFirstStockName().equals(note.getComparison().getFirstStockName())
+              && comparison.getSecondStockName().equals(note.getComparison().getSecondStockName())) {
         note.setComparison(comparison);
 
         break;

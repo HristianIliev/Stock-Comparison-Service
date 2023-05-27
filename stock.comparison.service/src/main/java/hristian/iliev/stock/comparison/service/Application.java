@@ -42,7 +42,7 @@ public class Application {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		container.setQueueNames(queueName);
-//		container.setMessageListener(listenerAdapter);
+		container.setMessageListener(listenerAdapter);
 		return container;
 	}
 

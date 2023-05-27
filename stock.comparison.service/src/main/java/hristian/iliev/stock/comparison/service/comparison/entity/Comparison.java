@@ -1,6 +1,7 @@
 package hristian.iliev.stock.comparison.service.comparison.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import hristian.iliev.stock.comparison.service.users.entity.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,8 @@ public class Comparison {
   @ManyToOne
   private Tag tag;
 
+  // to prevent infinity loop in json
+  @JsonManagedReference
   @OneToMany(mappedBy = "comparison")
   private List<Note> notes;
 

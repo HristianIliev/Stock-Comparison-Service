@@ -1,5 +1,6 @@
 package hristian.iliev.stock.comparison.service.comparison.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,10 @@ public class Note {
   @JsonIgnore
   private Long id;
 
+  // to prevent infinity loop in json
+  @JsonBackReference
   @ManyToOne
+  @JoinColumn(name = "comparison_id")
   private Comparison comparison;
 
   private String text;
